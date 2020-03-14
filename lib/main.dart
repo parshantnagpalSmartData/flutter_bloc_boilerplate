@@ -8,6 +8,8 @@ import 'container/auth/login.dart';
 import 'container/dashboard/home.dart';
 import 'Bloc/counterBloc.dart';
 import 'Bloc/userListBloc.dart';
+import 'container/dashboard/userList.dart';
+import 'Bloc/authBloc.dart';
 
 
 void main() async {
@@ -22,10 +24,27 @@ void main() async {
         BlocProvider<UserListBloc>(
           create: (BuildContext context) => UserListBloc(),
         ),
+         BlocProvider<AuthBloc>(
+          create: (BuildContext context) => AuthBloc(),
+        ),
       ],
       child: MaterialApp(
-        home: Login(),
+        // home: Login(),
+        home: BlocBuilder<AuthBloc, AuthState>(
+            builder: (BuildContext context, AuthState state) {
+              print("sfsfdsfjndsgfdgsjgsf");
+              print(state.isLogined);
+               if (state.isLogined == true) {
+                 
+                  return UserList();
+                 }else{
+                    return Login();
+                 }
+            
+            },
+          ),
       ),
+      
     ));
 }
 // void main() => runApp(MultiBlocProvider(

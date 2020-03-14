@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import '../dashboard/home.dart';
 import '../dashboard/userList.dart';
+import '../../Bloc/authBloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class Login extends StatefulWidget {
@@ -27,6 +29,7 @@ class _MyHomePageState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+       final authBloc = BlocProvider.of<AuthBloc>(context);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -62,6 +65,7 @@ class _MyHomePageState extends State<Login> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
+          authBloc.add(AuthEvent.login);
           Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => UserList()),
@@ -75,7 +79,17 @@ class _MyHomePageState extends State<Login> {
     );
 
     return Scaffold(
-      body: SingleChildScrollView(
+      body: 
+       BlocBuilder<AuthBloc, AuthState>(
+            builder: (BuildContext context, AuthState state) {
+          //             return Center(
+          //   child: Text(
+          //     '${state.isLogined}',
+          //     style: TextStyle(fontSize: 24.0),
+          //   ),
+          // );
+
+        return  SingleChildScrollView(
       child: Center(
         child: Container(
           color: Colors.white,
@@ -92,6 +106,12 @@ class _MyHomePageState extends State<Login> {
                     fit: BoxFit.contain,
                   ),
                 ),
+                Center(
+            child: Text(
+              '${state.isLogined}',
+              style: TextStyle(fontSize: 24.0),
+            ),
+          ),
                 SizedBox(height: 45.0),
                 emailField,
                 SizedBox(height: 25.0),
@@ -108,7 +128,13 @@ class _MyHomePageState extends State<Login> {
           ),
         ),
       ),
-        )
+        );
+       
+
+
+            }
+       )
+     
     );
   }
 }
