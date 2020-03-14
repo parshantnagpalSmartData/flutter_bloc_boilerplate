@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart';
 import '../dashboard/home.dart';
-import '../auth/login2.dart';
+import '../dashboard/userList.dart';
+
 
 class Login extends StatefulWidget {
   Login({Key key, this.title}) : super(key: key);
@@ -63,7 +64,7 @@ class _MyHomePageState extends State<Login> {
         onPressed: () {
           Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Login2()),
+                    MaterialPageRoute(builder: (context) => UserList()),
                   );
         },
         child: Text("Login",

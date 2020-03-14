@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../Bloc/counterBloc.dart';
+import '../../Bloc/userListBloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CounterPage extends StatelessWidget {
+class UserList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final counterBloc = BlocProvider.of<CounterBloc>(context);
-    BlocSupervisor.delegate = SimpleBlocDelegate();
+    final userListBloc = BlocProvider.of<UserListBloc>(context);
+    //  BlocSupervisor.delegate = UserListBlocDelegate();
 
     return Scaffold(
       appBar: AppBar(
@@ -25,16 +25,32 @@ class CounterPage extends StatelessWidget {
           ),
         ],
       ),
-      body: BlocBuilder<CounterBloc, int>(
-        builder: (context, count) {
-          return Center(
+      body:  BlocBuilder<UserListBloc, CounterState>(
+            builder: (BuildContext context, CounterState state) {
+              if (state is CounterState) {
+                  return Center(
             child: Text(
-              '$count',
+              '${state.value}',
               style: TextStyle(fontSize: 24.0),
             ),
           );
-        },
-      ),
+              } else if (state is CounterState) {
+                         return Center(
+            child: Text(
+             '${state.value}',
+              style: TextStyle(fontSize: 24.0),
+            ),
+          );
+              } else if (state is CounterState) {
+                         return Center(
+            child: Text(
+             '${state.value}',
+              style: TextStyle(fontSize: 24.0),
+            ),
+          );
+              }
+            },
+          ),
       floatingActionButton: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
@@ -45,7 +61,7 @@ class CounterPage extends StatelessWidget {
               heroTag: "btn1",
               child: Icon(Icons.add),
               onPressed: () {
-                 counterBloc.add(CounterEvents.increment);
+                 userListBloc.add(CounterEvent.increment);
               },
             ),
           ),
@@ -55,7 +71,7 @@ class CounterPage extends StatelessWidget {
               heroTag: "btn2",
               child: Icon(Icons.remove),
               onPressed: () {
-               counterBloc.add(CounterEvents.decrement);
+               userListBloc.add(CounterEvent.decrement);
               },
             ),
           ),

@@ -3,55 +3,66 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'container/auth/login.dart';
 import 'container/dashboard/home.dart';
+import 'Bloc/counterBloc.dart';
+import 'Bloc/userListBloc.dart';
 
-class SimpleBlocDelegate extends BlocDelegate {
-  @override
-  void onEvent(Bloc bloc, Object event) {
-    super.onEvent(bloc, event);
-    print(event);
-  }
 
-  @override
-  void onTransition(Bloc bloc, Transition transition) {
-    super.onTransition(bloc, transition);
-    print(transition);
-  }
-
-  @override
-  void onError(Bloc bloc, Object error, StackTrace stacktrace) {
-    super.onError(bloc, error, stacktrace);
-    print(error);
-  }
-}
-
-void main() {
-  BlocSupervisor.delegate = SimpleBlocDelegate();
-  runApp(App());
-}
-
-class App extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ThemeBloc(),
-      child: BlocBuilder<ThemeBloc, ThemeData>(
-        builder: (_, theme) {
-          return MaterialApp(
-            title: 'Flutter Demo',
-            home: BlocProvider(
-              create: (_) => CounterBloc(),
-              child: Home(),
-              //  child:Login(title: 'Flutter Login'),
-            ),
-            theme: theme,
-          );
-        },
+void main() async {
+  // BlocSupervisor.delegate = SimpleBlocDelegate();
+  WidgetsFlutterBinding.ensureInitialized();
+  BlocSupervisor.delegate = await HydratedBlocDelegate.build();
+  runApp(MultiBlocProvider(
+      providers: [
+        BlocProvider<CounterBloc>(
+          create: (BuildContext context) => CounterBloc(),
+        ),
+        BlocProvider<UserListBloc>(
+          create: (BuildContext context) => UserListBloc(),
+        ),
+      ],
+      child: MaterialApp(
+        home: Login(),
       ),
-    );
-  }
+    ));
 }
+// void main() => runApp(MultiBlocProvider(
+//       providers: [
+//         BlocProvider<CounterBloc>(
+//           create: (BuildContext context) => CounterBloc(),
+//         ),
+//         // BlocProvider<UserInfoBloc>(
+//         //   create: (BuildContext context) => UserInfoBloc(),
+//         // ),
+//       ],
+//       child: MaterialApp(
+//         home: Login(),
+//       ),
+//     ));
+
+// class App extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocProvider(
+//       create: (_) => ThemeBloc(),
+//       child: BlocBuilder<ThemeBloc, ThemeData>(
+//         builder: (_, theme) {
+//           return MaterialApp(
+//             title: 'Flutter Demo',
+//             home: BlocProvider(
+//               create: (_) => CounterBloc(),
+//               child: Home(),
+//               //  child:Login(title: 'Flutter Login'),
+//             ),
+//             theme: theme,
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
 
 enum ThemeEvent { toggle }
 class ThemeBloc extends Bloc<ThemeEvent, ThemeData> {
@@ -67,21 +78,5 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeData> {
     }
   }
 }
-enum CounterEvent { increment, decrement }
 
-class CounterBloc extends Bloc<CounterEvent, int> {
-  @override
-  int get initialState => 0;
 
-  @override
-  Stream<int> mapEventToState(CounterEvent event) async* {
-    switch (event) {
-      case CounterEvent.decrement:
-        yield state - 1;
-        break;
-      case CounterEvent.increment:
-        yield state + 1;
-        break;
-    }
-  }
-}
