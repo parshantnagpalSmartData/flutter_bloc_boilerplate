@@ -1,15 +1,37 @@
-import 'package:fleet_management/modal/weather.dart';
 import 'package:flutter/material.dart';
 import '../../Bloc/userListBloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../Bloc/authBloc.dart';
-import './Weather.dart';
+import './addVehicle.dart';
 
-class UserList extends StatelessWidget {
+class Vehicles extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+      TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+
     final userListBloc = BlocProvider.of<UserListBloc>(context);
           final authBloc = BlocProvider.of<AuthBloc>(context);
+             final addVehicle = Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.circular(30.0),
+      color: Color(0xff01A0C7),
+      child: MaterialButton(
+        minWidth: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        onPressed: () {
+          authBloc.add(AuthEvent.login);
+          Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddVehicle()),
+                  );
+        },
+        child: Text("Add Vehicle",
+            textAlign: TextAlign.center,
+            style: style.copyWith(
+                color: Colors.white, fontWeight: FontWeight.bold)),
+      ),
+    );
+
       final loginButon = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
@@ -28,29 +50,11 @@ class UserList extends StatelessWidget {
             textAlign: TextAlign.center
       ),
     ));
-       final vehicle = Material(
-      elevation: 5.0,
-      borderRadius: BorderRadius.circular(30.0),
-      color: Color(0xff01A0C7),
-      child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        onPressed: () {
-          authBloc.add(AuthEvent.logout);
-          Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Vehicles()),
-                  );
-        },
-        child: Text("Vehicles",
-            textAlign: TextAlign.center
-      ),
-    ));
     //  BlocSupervisor.delegate = UserListBlocDelegate();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Counter1'),
+        title: Text('Vehicle'),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.contacts),
@@ -68,21 +72,25 @@ class UserList extends StatelessWidget {
       body:  BlocBuilder<UserListBloc, CounterState>(
             builder: (BuildContext context, CounterState state) {
               if (state is CounterState) {
-                  return Column(
+                  return 
+                  SingleChildScrollView(
+      child: Center(
+        child: Container(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(36.0),
+            child:
+                  
+                  Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                  Center(
-                          child: Text(
-                            '${state.value}',
-                            style: TextStyle(fontSize: 24.0),
-                          ),
-                        ),
-                        loginButon,
-                        vehicle
-              ]);
+                addVehicle,
+              
+                        loginButon
+              ])
                   
-                  
+          ))));    
                   
                   
               
@@ -132,3 +140,5 @@ class UserList extends StatelessWidget {
     );
   }
 }
+
+
