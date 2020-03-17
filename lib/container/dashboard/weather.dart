@@ -4,12 +4,12 @@ import '../../Bloc/userListBloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../Bloc/authBloc.dart';
 import './addVehicle.dart';
-import '../../Bloc/vehicle/weatherEvent.dart';
-import '../../Bloc/vehicle/weatherState.dart';
-import '../../Bloc/vehicle/weatherBloc.dart';
+import '../../Bloc/weather/weatherEvent.dart';
+import '../../Bloc/weather/weatherState.dart';
+import '../../Bloc/weather/weatherBloc.dart';
 
 
-class Vehicles extends StatelessWidget {
+class Weathers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
       TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../dashboard/home.dart';
 import '../dashboard/userList.dart';
 import '../../Bloc/authBloc.dart';
+import '../../Bloc/vehicle/vehicleBloc.dart';
+import '../../Bloc/vehicle/vehicleEvent.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
@@ -30,6 +32,9 @@ class _MyHomePageState extends State<AddVehicle> {
   @override
   Widget build(BuildContext context) {
        final authBloc = BlocProvider.of<AuthBloc>(context);
+         final vehicleBloc = BlocProvider.of<VehicleBloc>(context);
+    // Initiate getting the weather
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -66,11 +71,12 @@ class _MyHomePageState extends State<AddVehicle> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          authBloc.add(AuthEvent.login);
-          Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => UserList()),
-                  );
+       
+          // Navigator.push(
+          //           context,
+          //           MaterialPageRoute(builder: (context) => UserList()),
+          //         );
+                      vehicleBloc.add(GetVehicle("Audi","XUV"));
         },
         child: Text("Add Vehicle",
             textAlign: TextAlign.center,
@@ -80,6 +86,22 @@ class _MyHomePageState extends State<AddVehicle> {
     );
 
     return Scaffold(
+       appBar: AppBar(
+        title: Text('Add Vehicle'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.contacts),
+            tooltip: 'Show Snackbar',
+            onPressed: () {
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => UserList()),
+              // );
+              // scaffoldKey.currentState.showSnackBar(snackBar);
+            },
+          ),
+        ],
+      ),
       body: 
        BlocBuilder<AuthBloc, AuthState>(
             builder: (BuildContext context, AuthState state) {
@@ -133,3 +155,9 @@ class _MyHomePageState extends State<AddVehicle> {
     );
   }
 }
+
+
+  void submitCityName(String cityName) {
+    // Get the Bloc using the BlocProvider
+  
+  }

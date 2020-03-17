@@ -6,7 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'container/auth/login.dart';
 import 'container/dashboard/home.dart';
-import 'Bloc/vehicle/weatherBloc.dart';
+import 'Bloc/weather/weatherBloc.dart';
+import 'Bloc/vehicle/vehicleBloc.dart';
 import 'Bloc/counterBloc.dart';
 import 'Bloc/userListBloc.dart';
 import 'container/dashboard/userList.dart';
@@ -30,6 +31,9 @@ void main() async {
         ),
         BlocProvider<WeatherBloc>(
             create: (BuildContext context) => WeatherBloc(),
+          ),
+        BlocProvider<VehicleBloc>(
+            create: (BuildContext context) => VehicleBloc(),
           ),
       ],
       child: MaterialApp(
